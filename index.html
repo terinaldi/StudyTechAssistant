@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lexi — Student Dictionary</title>
+<meta name="description" content="A fast, simple dictionary for students with levels, pronunciation, examples and etymology.">
+<meta name="theme-color" content="#f7f4ee" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#16151a" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://en.wiktionary.org" crossorigin>
+<link rel="preconnect" href="https://api.datamuse.com" crossorigin>
+<link rel="preconnect" href="https://simple.wiktionary.org" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="bar">
+    <a class="brand" href="#/" aria-label="Home">Lexi</a>
+    <form class="search" id="searchForm" role="search" autocomplete="off">
+      <svg class="search-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" inputmode="search" enterkeyhint="search" placeholder="Look up a word" aria-label="Look up a word"
+             autocapitalize="off" autocorrect="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="suggest" aria-autocomplete="list">
+      <button type="button" class="clear" id="clearQ" aria-label="Clear" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+      <ul id="suggest" class="suggest" role="listbox" hidden></ul>
+    </form>
+    <button class="icon-btn" id="historyBtn" aria-label="History">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v4h4"/><path d="M12 7v5l3 2"/></svg>
+    </button>
+  </div>
+  <div class="levels" id="levels" role="radiogroup" aria-label="Reading level">
+    <button role="radio" data-level="0">Beginner</button>
+    <button role="radio" data-level="1">Student</button>
+    <button role="radio" data-level="2">Advanced</button>
+    <button role="radio" data-level="3">Expert</button>
+    <span class="pill" aria-hidden="true"></span>
+  </div>
+  <nav class="trail" id="trail" aria-label="Recent words"></nav>
+</header>
+
+<main id="main" tabindex="-1"></main>
+
+<div class="sheet-backdrop" id="sheetBackdrop" hidden></div>
+<aside class="sheet" id="sheet" aria-label="History" aria-hidden="true">
+  <div class="sheet-handle"></div>
+  <div class="sheet-head">
+    <h2>Your words</h2>
+    <button class="text-btn" id="clearHistory">Clear</button>
+  </div>
+  <ol class="history-list" id="historyList"></ol>
+</aside>
+
+<footer class="foot">
+  Definitions &amp; etymology: <a href="https://en.wiktionary.org" target="_blank" rel="noopener">Wiktionary</a> (CC BY-SA) ·
+  Simple definitions: <a href="https://simple.wiktionary.org" target="_blank" rel="noopener">Simple Wiktionary</a> ·
+  Extra sentences: <a href="https://tatoeba.org" target="_blank" rel="noopener">Tatoeba</a> ·
+  Suggestions: <a href="https://www.datamuse.com/api/" target="_blank" rel="noopener">Datamuse</a>
+</footer>
+
+<script src="app.js" defer></script>
+</body>
+</html>
