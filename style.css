@@ -9,10 +9,12 @@
   --accent-soft: #e8ebff;
   --warm: #b4532a;
   --warm-soft: #f8e9df;
+  --gold: #a07a2c;
   --shadow: 0 1px 2px rgba(30, 25, 15, .05), 0 8px 24px rgba(30, 25, 15, .06);
   --radius: 16px;
   --serif: "Fraunces", Georgia, "Times New Roman", serif;
   --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --serif-ety: "Iowan Old Style", Georgia, "Noto Serif", "Times New Roman", serif; /* handles ō, ā, ī, Greek well */
   --mono-ipa: "Charis SIL", "Doulos SIL", "Gentium Plus", "Segoe UI", "Lucida Sans Unicode", sans-serif;
   color-scheme: light;
 }
@@ -28,6 +30,7 @@
     --accent-soft: #262a4a;
     --warm: #f0a27c;
     --warm-soft: #3a2a23;
+    --gold: #e0c27a;
     --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
     color-scheme: dark;
   }
@@ -60,11 +63,21 @@ svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; 
   border-bottom: 1px solid var(--line);
   padding: calc(env(safe-area-inset-top) + 10px) 16px 0;
 }
-.bar, .levels, .trail, main, .foot { max-width: 680px; margin-inline: auto; }
+.bar, .levels, .trail, main, .foot, .brand { max-width: 680px; margin-inline: auto; }
 .bar { display: flex; align-items: center; gap: 10px; }
-.brand {
-  font: 600 22px/1 var(--serif); color: var(--ink); text-decoration: none; letter-spacing: -.02em;
+
+/* masthead (scrolls away; the search stays pinned) */
+.masthead { padding: calc(env(safe-area-inset-top) + 14px) 16px 4px; }
+.brand { display: flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.brand-mark { width: 38px; height: 38px; flex: none; filter: drop-shadow(0 2px 4px rgba(27, 34, 80, .25)); }
+.brand-text { display: flex; flex-direction: column; min-width: 0; }
+.brand-name { font: 600 22px/1.1 var(--serif); letter-spacing: -.015em; white-space: nowrap; }
+.brand-name em { font-style: italic; font-weight: 400; color: var(--gold); margin-left: 1px; }
+.brand-sub {
+  font: 600 10.5px/1 var(--sans); letter-spacing: .32em; text-transform: uppercase; color: var(--ink-3);
+  margin-top: 5px; display: flex; align-items: center; gap: 8px;
 }
+.brand-sub::after { content: ""; flex: 1; max-width: 60px; height: 1px; background: linear-gradient(90deg, var(--gold), transparent); }
 .search { position: relative; flex: 1; min-width: 0; }
 .search input {
   width: 100%; height: 44px;
@@ -240,7 +253,7 @@ main { width: 100%; padding: 20px 16px 40px; flex: 1; outline: none; }
   font: 600 13px var(--sans); text-transform: uppercase; letter-spacing: .08em; color: var(--ink-3);
   margin: 0 0 10px;
 }
-.ety p { margin: 0 0 12px; font-family: var(--serif); font-size: 17px; line-height: 1.6; }
+.ety p { margin: 0 0 12px; font-family: var(--serif-ety); font-size: 17px; line-height: 1.6; }
 .ety .lang { font-family: var(--sans); font-size: .82em; font-weight: 600; color: var(--warm); }
 .ety .term { font-style: italic; font-weight: 600; }
 .ety h4 { margin: 4px 0 6px; font-size: 13px; color: var(--ink-3); font-weight: 600; }
@@ -252,9 +265,9 @@ main { width: 100%; padding: 20px 16px 40px; flex: 1; outline: none; }
   content: ""; position: absolute; left: 1px; top: 11px; width: 12px; height: 12px; border-radius: 50%;
   background: var(--surface); border: 2px solid var(--warm);
 }
-.lineage li:last-child::before { background: var(--warm); }
+.lineage li:first-child::before { background: var(--warm); }
 .lineage .l { font-size: 12px; font-weight: 600; color: var(--warm); text-transform: uppercase; letter-spacing: .04em; }
-.lineage .t { font: italic 600 18px var(--serif); }
+.lineage .t { font: italic 600 18px var(--serif-ety); }
 .lineage .g { font-size: 14px; color: var(--ink-2); }
 
 .formof {

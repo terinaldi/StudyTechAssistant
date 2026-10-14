@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Lexi — Student Dictionary</title>
+<title>StudyTechAssistant — Dictionary</title>
 <meta name="description" content="A fast, simple dictionary for students with levels, pronunciation, examples and etymology.">
 <meta name="theme-color" content="#f7f4ee" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#16151a" media="(prefers-color-scheme: dark)">
@@ -14,13 +14,21 @@
 <link rel="preconnect" href="https://simple.wiktionary.org" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div class="masthead">
+  <a class="brand" href="#/" aria-label="StudyTechAssistant home">
+    <img class="brand-mark" src="icon.svg" alt="" width="38" height="38">
+    <span class="brand-text">
+      <span class="brand-name">StudyTech<em>Assistant</em></span>
+      <span class="brand-sub">Dictionary</span>
+    </span>
+  </a>
+</div>
 <header class="top">
   <div class="bar">
-    <a class="brand" href="#/" aria-label="Home">Lexi</a>
     <form class="search" id="searchForm" role="search" autocomplete="off">
       <svg class="search-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
       <input id="q" type="search" inputmode="search" enterkeyhint="search" placeholder="Look up a word" aria-label="Look up a word"

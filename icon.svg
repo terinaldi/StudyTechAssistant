@@ -1,1 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#3b4fd8"/><text x="32" y="45" text-anchor="middle" font-family="Georgia, serif" font-size="38" font-weight="700" fill="#fff">L</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- page block (visible on the right and bottom edges) -->
+  <rect x="15" y="8" width="40" height="50" rx="3" fill="#f4ecdc" stroke="#c9a45c" stroke-width="1"/>
+  <path d="M19 55.5h33M52.5 12v41" stroke="#e2d4b6" stroke-width="1"/>
+  <!-- thumb-index notches -->
+  <path d="M55 16.4a2.6 2.6 0 0 0 0 5.2zM55 26.4a2.6 2.6 0 0 0 0 5.2zM55 36.4a2.6 2.6 0 0 0 0 5.2z" fill="#1b2250"/>
+  <!-- cover + spine -->
+  <rect x="9" y="5" width="41" height="50" rx="4" fill="#26306b"/>
+  <rect x="9" y="5" width="9" height="50" rx="3" fill="#1b2250"/>
+  <path d="M10.5 11.5h6M10.5 14h6M10.5 46h6M10.5 48.5h6" stroke="#c9a45c" stroke-width="1.2"/>
+  <!-- gilt frame + emblem -->
+  <rect x="22" y="10" width="24" height="40" rx="2" fill="none" stroke="#c9a45c" stroke-width="1.2"/>
+  <text x="34" y="35.5" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="15" fill="#e6c97f">Aa</text>
+  <path d="M28 40h12" stroke="#c9a45c" stroke-width="1"/>
+  <!-- ribbon bookmark -->
+  <path d="M40 54v8l2.5-2.2L45 62v-8z" fill="#b4532a"/>
+</svg>

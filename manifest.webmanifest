@@ -1,6 +1,6 @@
 {
-  "name": "Lexi — Student Dictionary",
-  "short_name": "Lexi",
+  "name": "StudyTechAssistant — Dictionary",
+  "short_name": "StudyTech",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#f7f4ee",

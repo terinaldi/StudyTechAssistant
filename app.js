@@ -1,7 +1,7 @@
 'use strict';
 
 /* =========================================================
-   Lexi — a student dictionary. Pure static, no build step.
+   StudyTechAssistant — a student dictionary. Pure static, no build step.
    Data: Wiktionary + Simple Wiktionary (definitions, IPA,
    audio, etymology), Datamuse (suggestions), Tatoeba
    (backup example sentences).
@@ -21,7 +21,6 @@ const CFG = {
   etyChars: [200, 420, 850, 1700],
   etySections: [1, 1, 2, 4],
   lineageMax: [3, 5, 7, 99],
-  synMax: [5, 8, 12, 20],
   derivedMax: [0, 0, 12, 40],
 };
 
@@ -46,7 +45,7 @@ const GRAMMAR_LABEL = /^(transitive|intransitive|ambitransitive|countable|uncoun
 /* ---------- tiny helpers ---------- */
 const $ = (s, el = document) => el.querySelector(s);
 const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-const norm = (s) => s.replace(/\s+/g, ' ').trim();
+const norm = (s) => s.normalize('NFC').replace(/\s+/g, ' ').trim();
 const uniq = (a) => [...new Set(a)];
 function load(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch { return d; } }
 function save(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* private mode */ } }
@@ -107,7 +106,6 @@ function fetchEntry(word) {
       en, simple: simple || null,
       tatoeba: null,
       tatoebaP: fetchTatoeba(title).catch(() => []),
-      dmSynP: getJSON(DATAMUSE + 'words?max=16&rel_syn=' + encodeURIComponent(title)).then(r => r.map(x => x.word)).catch(() => []),
     };
     if (simple === undefined) simpleP.then(s => {
       if (!s) return;
@@ -519,7 +517,8 @@ function lineage(text, headword, level) {
   }
   chain = chain.slice(-CFG.lineageMax[level]);
   if (!chain.length) return [];
-  return [...chain, { l: 'English', t: headword, g: '' }];
+  // today's English word first, then back in time to the oldest root
+  return [{ l: 'English', t: headword, g: '' }, ...chain.reverse()];
 }
 
 function clipEty(paras, cap) {
@@ -759,19 +758,6 @@ function render() {
     frag.append(card);
   }
 
-  /* ---- similar words (B/S) ---- */
-  if (L <= 1) {
-    const syn = clean(uniq(groups.flatMap(g => g.senses.flatMap(s => s.syn))));
-    const all = syn.length ? syn : clean(data.dmSyn || []);
-    const ant = clean(uniq(groups.flatMap(g => g.senses.flatMap(s => s.ant))));
-    if (all.length || (L === 1 && ant.length)) {
-      const card = h('section', { class: 'card' });
-      if (all.length) card.append(h('h3', { class: 'section-title', text: 'Words like this' }), h('div', { class: 'chips' }, all.slice(0, CFG.synMax[L]).map(wordBtn)));
-      if (L === 1 && ant.length) card.append(h('h3', { class: 'section-title', text: 'Opposites' }), h('div', { class: 'chips' }, ant.slice(0, 5).map(wordBtn)));
-      frag.append(card);
-    }
-  }
-
   /* ---- etymology ---- */
   const etys = (en?.ety || []).slice(0, CFG.etySections[L]);
   if (etys.length) {
@@ -810,7 +796,6 @@ function render() {
 
   // late-arriving extras
   if (missing && !data.tatoeba) data.tatoebaP.then(t => { data.tatoeba = t; if (t.length && state.current?.data === data) render(); });
-  if (L <= 1 && !data.dmSyn) data.dmSynP.then(s => { data.dmSyn = s; if (s.length && state.current?.data === data) render(); });
 }
 
 function svgIcon(name) {
@@ -917,7 +902,7 @@ async function route() {
   }
   if (token !== routeToken) return;
   state.current = { query: q, data };
-  document.title = data ? `${data.title} — Lexi` : 'Lexi — Student Dictionary';
+  document.title = data ? `${data.title} — StudyTechAssistant` : 'StudyTechAssistant — Dictionary';
   if (data) addHistory(data.title); else renderTrail();
   render();
 }
@@ -935,8 +920,8 @@ function showSuggest(words, q) {
   if (!words.length) { hideSuggest(); return; }
   sugBox.replaceChildren(...words.map((w, i) => {
     const li = h('li', { role: 'option', id: 'sug' + i, 'aria-selected': 'false', data: { w: w.w } });
-    if (q && w.w.toLowerCase().startsWith(q.toLowerCase())) li.append(w.w.slice(0, q.length), h('mark', { text: w.w.slice(q.length) }));
-    else li.append(w.w);
+    if (q && w.w.toLowerCase().startsWith(q.toLowerCase())) li.append(h('span', null, w.w.slice(0, q.length), h('mark', { text: w.w.slice(q.length) })));
+    else li.append(h('span', { text: w.w }));
     if (w.recent) li.append(h('span', { class: 'tag', text: 'recent' }));
     return li;
   }));
@@ -960,10 +945,19 @@ async function suggest(q) {
   sugCtl?.abort();
   sugCtl = new AbortController();
   try {
-    const res = await getJSON(DATAMUSE + 'sug?max=8&s=' + encodeURIComponent(q), sugCtl.signal);
+    const res = await getJSON(DATAMUSE + 'sug?max=25&s=' + encodeURIComponent(q), sugCtl.signal);
     if (input.value.trim() !== q) return;
+    // single words only ("category", not "category 3" / "category theory"), each spelling once
+    const multi = /\s/.test(q);
     const seen = new Set(recent.map(r => r.w.toLowerCase()));
-    const list = [...recent, ...res.map(r => ({ w: r.word })).filter(r => !seen.has(r.w.toLowerCase()))].slice(0, 8);
+    const words = [];
+    for (const { word } of res) {
+      const k = word.toLowerCase();
+      if (seen.has(k) || (!multi && !/^[a-z][a-z'’-]*$/i.test(word))) continue;
+      seen.add(k);
+      words.push({ w: word });
+    }
+    const list = [...recent, ...words].slice(0, 8);
     showSuggest(list, q);
     clearTimeout(prefetchTimer);
     if (list[0]) prefetchTimer = setTimeout(() => fetchEntry(list[0].w), 450);

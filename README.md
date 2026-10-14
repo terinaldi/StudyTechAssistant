@@ -1,4 +1,4 @@
-# Lexi — a student dictionary
+# StudyTechAssistant — a student dictionary
 
 A fast, mobile-first dictionary website. No build step, no server, no API keys: just static files.
 
@@ -17,15 +17,15 @@ A fast, mobile-first dictionary website. No build step, no server, no API keys: 
 | Definitions, examples, IPA, audio, etymology | [Wiktionary](https://en.wiktionary.org) |
 | Beginner-level definitions | [Simple English Wiktionary](https://simple.wiktionary.org) |
 | Backup example sentences | [Tatoeba](https://tatoeba.org) |
-| Autocomplete, extra synonyms | [Datamuse](https://www.datamuse.com/api/) |
+| Autocomplete | [Datamuse](https://www.datamuse.com/api/) |
 
 ## Put it online
 
 ### Option A: GitHub Pages
-1. Create a new public repository on GitHub, e.g. `lexi`.
+1. Create a new public repository on GitHub, e.g. `studytechassistant`.
 2. Click **Add file → Upload files** and drag in: `index.html`, `app.js`, `style.css`, `icon.svg`, `manifest.webmanifest`, `.nojekyll`.
 3. Go to **Settings → Pages**, set **Source** to *Deploy from a branch*, choose `main` / `(root)` and save.
-4. After about a minute the site is live at `https://<your-username>.github.io/lexi/`.
+4. After about a minute the site is live at `https://<your-username>.github.io/studytechassistant/`.
 
 ### Option B: Netlify (easiest)
 1. Go to <https://app.netlify.com/drop>.
